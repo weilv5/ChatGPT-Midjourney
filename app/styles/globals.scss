@@ -5,11 +5,11 @@
   --theme: light;
 
   /* color */
-  --white: white;
+  --white: rgb(242, 242, 246);
   --black: rgb(48, 48, 48);
   --gray: rgb(250, 250, 250);
   --primary: rgb(175, 93, 237);
-  --second: rgb(242, 227, 255);
+  --second: rgb(242, 242, 246);
   --hover-color: #f3f3f3;
   --bar-color: rgba(0, 0, 0, 0.1);
   --theme-color: var(--gray);
@@ -62,7 +62,7 @@
   --window-width: 90vw;
   --window-height: 90vh;
   --sidebar-width: 300px;
-  --window-content-width: calc(100% - var(--sidebar-width));
+  --window-content-width: 100%;
   --message-max-width: 80%;
   --full-height: 100%;
 }
