@@ -385,7 +385,7 @@ export function ChatActions(props: {
     const theme = config.theme;
 
     function nextTheme() {
-        const themes = [Theme.Auto, Theme.Light, Theme.Dark];
+        const themes = [Theme.Light];
         const themeIndex = themes.indexOf(theme);
         const nextIndex = (themeIndex + 1) % themes.length;
         const nextTheme = themes[nextIndex];
@@ -1162,7 +1162,7 @@ function _Chat() {
                                                 </div>
                                             </div>
                                         )}
-                                    <div className={styles["chat-message-action-date"]}>
+                                    <div className={styles["chat-message-action-date"]} style={{textAlign: isUser ? "right" : "left" }}>
                                         {isContext
                                             ? Locale.Chat.IsContext
                                             : message.date.toLocaleString()}
