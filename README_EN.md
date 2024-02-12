@@ -94,6 +94,3 @@ Enter your painting description starting with `/mj` in the input box to create a
 ![mj-2](./docs/images/mj-2.png)
 ### More features
 Waiting for you to discover
-
-## Open source protocol
-[MIT](./LICENSE)

@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
 
-import BotIcon from "../icons/bot.svg";
+import AniyaIcon from "../icons/aniya.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 
 import { getCSSVar, useMobileScreen } from "../utils";
@@ -19,11 +19,8 @@ import { getISOLang, getLang } from "../locales";
 
 import {
   HashRouter as Router,
-  Routes,
-  Route,
   useLocation,
 } from "react-router-dom";
-import { SideBar } from "./sidebar";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
@@ -33,25 +30,13 @@ import { useAccessStore } from "../store";
 export function Loading(props: { noLogo?: boolean }) {
   return (
     <div className={styles["loading-content"] + " no-dark"}>
-      {!props.noLogo && <BotIcon />}
+      {!props.noLogo && <AniyaIcon />}
       <LoadingIcon />
     </div>
   );
 }
 
-const Settings = dynamic(async () => (await import("./settings")).Settings, {
-  loading: () => <Loading />,
-});
-
 const Chat = dynamic(async () => (await import("./chat")).Chat, {
-  loading: () => <Loading />,
-});
-
-const NewChat = dynamic(async () => (await import("./new-chat")).NewChat, {
-  loading: () => <Loading />,
-});
-
-const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
   loading: () => <Loading />,
 });
 
@@ -122,7 +107,6 @@ const loadAsyncGoogleFont = () => {
 function Screen() {
   const config = useAppConfig();
   const location = useLocation();
-  const isHome = location.pathname === Path.Home;
   const isAuth = location.pathname === Path.Auth;
   const isMobileScreen = useMobileScreen();
 

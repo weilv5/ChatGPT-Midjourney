@@ -8,22 +8,15 @@ import React, {
 } from "react";
 
 import SendWhiteIcon from "../icons/send-white.svg";
-import BrainIcon from "../icons/brain.svg";
-import RenameIcon from "../icons/rename.svg";
-import ExportIcon from "../icons/share.svg";
-import ReturnIcon from "../icons/return.svg";
 import CopyIcon from "../icons/copy.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import PromptIcon from "../icons/prompt.svg";
 import MaskIcon from "../icons/mask.svg";
-import MaxIcon from "../icons/max.svg";
-import MinIcon from "../icons/min.svg";
 import ResetIcon from "../icons/reload.svg";
 import BreakIcon from "../icons/break.svg";
 import SettingsIcon from "../icons/chat-settings.svg";
 import DeleteIcon from "../icons/clear.svg";
 import PinIcon from "../icons/pin.svg";
-import EditIcon from "../icons/rename.svg";
 import ConfirmIcon from "../icons/confirm.svg";
 import CancelIcon from "../icons/cancel.svg";
 import UploadIcon from "../icons/upload.svg";
@@ -34,7 +27,6 @@ import AutoIcon from "../icons/auto.svg";
 import BottomIcon from "../icons/bottom.svg";
 import StopIcon from "../icons/pause.svg";
 import RobotIcon from "../icons/robot.svg";
-import Image from "next/image";
 
 import {
     ChatMessage,
@@ -45,7 +37,6 @@ import {
     useAccessStore,
     Theme,
     useAppConfig,
-    DEFAULT_TOPIC,
     ModelType,
 } from "../store";
 
@@ -71,7 +62,6 @@ import {
     Modal,
     Selector,
     showConfirm,
-    showPrompt,
     showToast,
 } from "./ui-lib";
 import {useNavigate} from "react-router-dom";
@@ -87,7 +77,6 @@ import {useMaskStore} from "../store/mask";
 import {ChatCommandPrefix, useChatCommand, useCommand} from "../command";
 import {prettyObject} from "../utils/format";
 import {ExportMessageModal} from "./exporter";
-import {getClientConfig} from "../config/client";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
     loading: () => <LoadingIcon/>,
@@ -152,36 +141,6 @@ export function SessionConfigModel(props: { onClose: () => void }) {
                     }
                 ></MaskConfig>
             </Modal>
-        </div>
-    );
-}
-
-function PromptToast(props: {
-    showToast?: boolean;
-    showModal?: boolean;
-    setShowModal: (_: boolean) => void;
-}) {
-    const chatStore = useChatStore();
-    const session = chatStore.currentSession();
-    const context = session.mask.context;
-
-    return (
-        <div className={styles["prompt-toast"]} key="prompt-toast">
-            {props.showToast && (
-                <div
-                    className={styles["prompt-toast-inner"] + " clickable"}
-                    role="button"
-                    onClick={() => props.setShowModal(true)}
-                >
-                    <BrainIcon/>
-                    <span className={styles["prompt-toast-content"]}>
-            {Locale.Context.Toast(context.length)}
-          </span>
-                </div>
-            )}
-            {props.showModal && (
-                <SessionConfigModel onClose={() => props.setShowModal(false)}/>
-            )}
         </div>
     );
 }
@@ -659,7 +618,6 @@ function _Chat() {
     const [isLoading, setIsLoading] = useState(false);
     const {submitKey, shouldSubmit} = useSubmitHandler();
     const {scrollRef, setAutoScroll, scrollDomToBottom} = useScrollToBottom();
-    const [hitBottom, setHitBottom] = useState(true);
     const isMobileScreen = useMobileScreen();
     const navigate = useNavigate();
 
@@ -917,13 +875,6 @@ function _Chat() {
         chatStore.updateCurrentSession((session) =>
             session.mask.context.push(message),
         );
-
-        showToast(Locale.Chat.Actions.PinToastContent, {
-            text: Locale.Chat.Actions.PinToastAction,
-            onClick: () => {
-                setShowPromptModal(true);
-            },
-        });
     };
 
     const context: RenderMessage[] = useMemo(() => {
@@ -1015,7 +966,6 @@ function _Chat() {
             setMsgRenderIndex(nextPageMsgIndex);
         }
 
-        setHitBottom(isHitBottom);
         setAutoScroll(isHitBottom);
     };
 
@@ -1030,12 +980,7 @@ function _Chat() {
             ? session.clearContextIndex! + context.length - msgRenderIndex
             : -1;
 
-    const [showPromptModal, setShowPromptModal] = useState(false);
-
-    const clientConfig = useMemo(() => getClientConfig(), []);
-
     const autoFocus = !isMobileScreen; // wont auto focus on mobile screen
-    const showMaxIcon = !isMobileScreen && !clientConfig?.isApp;
 
     useCommand({
         fill: setUserInput,
@@ -1079,13 +1024,6 @@ function _Chat() {
         },
     });
 
-    // messages?.forEach((msg) => {
-    //     console.log('each')
-    //     if (msg.model === "midjourney" && msg.attr?.taskId) {
-    //         chatStore.fetchMidjourneyStatus(msg);
-    //     }
-    // });
-
     // edit / insert message modal
     const [isEditingMessage, setIsEditingMessage] = useState(false);
 
@@ -1122,26 +1060,6 @@ function _Chat() {
                                 <div className={styles["chat-message-container"]}>
                                     <div className={styles["chat-message-header"]}>
                                         <div className={styles["chat-message-avatar"]}>
-                                            <div className={styles["chat-message-edit"]}>
-                                                <IconButton
-                                                    icon={<EditIcon/>}
-                                                    onClick={async () => {
-                                                        const newMessage = await showPrompt(
-                                                            Locale.Chat.Actions.Edit,
-                                                            message.content,
-                                                            10,
-                                                        );
-                                                        chatStore.updateCurrentSession((session) => {
-                                                            const m = session.mask.context
-                                                                .concat(session.messages)
-                                                                .find((m) => m.id === message.id);
-                                                            if (m) {
-                                                                m.content = newMessage;
-                                                            }
-                                                        });
-                                                    }}
-                                                ></IconButton>
-                                            </div>
                                             {isUser ? (
                                                 <Avatar avatar={config.avatar}/>
                                             ) : (

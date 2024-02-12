@@ -102,6 +102,3 @@ npm run start // #或者开发模式启动： npm run dev
 ![mj-2](./docs/images/mj-2.png)
 ### 更多功能
 等你自行发掘
-
-## 开源协议
-[MIT](./LICENSE)
