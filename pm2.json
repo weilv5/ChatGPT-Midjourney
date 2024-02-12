@@ -3,23 +3,6 @@
         "name": "aniya-chat",
         "instances": 1,
         "autorestart": true,
-        "script": "npm run dev",
-        "env": {
-            "OPENAI_API_KEY": "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",
-            "CODE": "",
-            "PROXY_URL": "",
-            "BASE_URL": "",
-            "OPENAI_ORG_ID": "1",
-            "HIDE_USER_API_KEY": "1",
-            "DISABLE_GPT4": "1",
-            "HIDE_BALANCE_QUERY": "1",
-            "MJ_SERVER_ID": "1088389619017601147",
-            "MJ_CHANNEL_ID": "1088389619634151496",
-            "MJ_USER_TOKEN": "MTA4NzU4NTU0OTYxMjc0ODk0Mw.G306jy.CQp7OuWa1nGHhxjwfaYStkHHj41Mhv6BIPHwqY",
-            "MJ_DISCORD_PROXY": "",
-            "MJ_DISCORD_WSS_PROXY": "",
-            "MJ_DISCORD_CDN_PROXY": ""
-
-        }
+        "script": "npm run dev"
     }
 ]
