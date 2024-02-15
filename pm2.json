@@ -3,6 +3,6 @@
         "name": "aniya-chat",
         "instances": 1,
         "autorestart": true,
-        "script": "npm run dev"
+        "script": "yarn install && yarn build && yarn start"
     }
 ]
